@@ -18,14 +18,12 @@ To use it, just add it as a dependency in your `composer.json`:
 "timhoepfner/composer-symlinker": "dev-master"
 ```
 
-You must define concerned local paths or packages as *extra* config entries:
+You must define concerned local paths or packages as *extra* config entries **or you can use your projects .env, see [here](#Dotenv) **:
 
 -   `local-dirs`: a list of local paths to scan while searching a local version
     of a package ; the final package path will be completed with `vendor/package` ;
 -   `local-packages`: an array of `vendor/package => local_path` items ;
 -   `local-vendors`: a list of vendors to restrict local scanning.
-
-`composer.json`
 
 ```json
 "extra": {
@@ -44,7 +42,12 @@ You must define concerned local paths or packages as *extra* config entries:
 }
 ```
 
-The same confiruation with `.env` will look like this, also with the [nested variables](https://github.com/vlucas/phpdotenv#nesting-variables) feature offered by phpdotenv
+Dotenv
+------
+
+The same configuration with `.env` will look like this, also with the [nested variables](https://github.com/vlucas/phpdotenv#nesting-variables) feature offered by phpdotenv
+
+**Note** If there is an existing configuration in your `composer.json` this will always be used instead of the settings within your `.env` due to compatibility.
 
 ```
 LOCAL_DIR=/my/absolute/local
@@ -63,6 +66,11 @@ To separate multiple entries in one line you could use comma (`,`) or pipe (`|`)
 To create a key:value list just use a colon (`:`)
 - Single entry e.g. `COMPOSER_LOCAL_PACKAGES=vendor/package1:/full/path/package1`
 - Multiple entries (see delimiters above) `COMPOSER_LOCAL_PACKAGES=vendor/package1:/full/path/package1,vendor/package2:/full/path/package2` or `COMPOSER_LOCAL_PACKAGES=vendor/package1:/full/path/package1|vendor/package2:/full/path/package2`
+
+Also it is possible to temporary disable this .env configuration, just add the following key
+```
+COMPOSER_LOCAL_DISABLED=1
+```
 
 Windows users warning
 ---------------------

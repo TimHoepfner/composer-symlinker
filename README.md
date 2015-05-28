@@ -1,4 +1,4 @@
-Composer symlinker
+Composer symlinker with Dotenv support
 ==================
 
 A [Composer](http://getcomposer.org/) plugin to install packages as local symbolic links.
@@ -7,6 +7,7 @@ This plugin is a *temporary* implementation of using symbolic links to local pac
 to allow a parallel work process. For a descriptive (and commented) problematic, see
 <https://github.com/composer/composer/issues/1299>.
 
+**In this Fork** you can find additional support for [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) which is used by various frameworks out there. I use this feature in combination of an existing `.env` file which can be developer specific and is composer config independent.
 
 Usage
 -----
@@ -14,7 +15,7 @@ Usage
 To use it, just add it as a dependency in your `composer.json`:
 
 ```json
-"piwi/composer-symlinker": "dev-master"
+"timhoepfner/composer-symlinker": "dev-master"
 ```
 
 You must define concerned local paths or packages as *extra* config entries:
@@ -24,6 +25,7 @@ You must define concerned local paths or packages as *extra* config entries:
 -   `local-packages`: an array of `vendor/package => local_path` items ;
 -   `local-vendors`: a list of vendors to restrict local scanning.
 
+`composer.json`
 
 ```json
 "extra": {
@@ -42,6 +44,14 @@ You must define concerned local paths or packages as *extra* config entries:
 }
 ```
 
+The same confiruation with `.env` will look like this, also with the neat [nested variables](https://github.com/vlucas/phpdotenv#nesting-variables) feature
+
+```
+BASE_DIR=/path/to/DOCUMENT_ROOT
+COMPOSER_LOCAL_DIRS={$BASE_DIR}/projects
+COMPOSER_LOCAL_VENDORS=vendor1,vendor2
+COMPOSER_LOCAL_PACKAGES=vendor/package1:/my/absolute/path/to/vendor/package1,vendor/package2:/my/absolute/path/to/vendor/package2
+```
 
 Windows users warning
 ---------------------

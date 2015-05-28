@@ -44,7 +44,7 @@ You must define concerned local paths or packages as *extra* config entries:
 }
 ```
 
-The same confiruation with `.env` will look like this, also with the neat [nested variables](https://github.com/vlucas/phpdotenv#nesting-variables) feature
+The same confiruation with `.env` will look like this, also with the [nested variables](https://github.com/vlucas/phpdotenv#nesting-variables) feature offered by phpdotenv
 
 ```
 LOCAL_DIR=/my/absolute/local
@@ -53,6 +53,16 @@ COMPOSER_LOCAL_DIRS={$LOCAL_DIR}/path1,{$LOCAL_DIR}/path2
 COMPOSER_LOCAL_VENDORS=vendor1,vendor2
 COMPOSER_LOCAL_PACKAGES=vendor/package1:{$VENDOR_DIR}/package1,vendor/package2:{$VENDOR_DIR}/package2
 ```
+
+**Explanation**
+
+To separate multiple entries in one line you could use comma (`,`) or pipe (`|`) as delimiters
+- Single entry e.g. `COMPOSER_LOCAL_DIRS=/my/absolute/local`
+- Multiple entries e.g. `COMPOSER_LOCAL_DIRS=/my/absolute/local,/another/local` or `COMPOSER_LOCAL_DIRS=/my/absolute/local|/another/local`
+
+To create a key:value list just use a colon (`:`)
+- Single entry e.g. `COMPOSER_LOCAL_PACKAGES=vendor/package1:/full/path/package1`
+- Multiple entries (see delimiters above) `COMPOSER_LOCAL_PACKAGES=vendor/package1:/full/path/package1,vendor/package2:/full/path/package2` or `COMPOSER_LOCAL_PACKAGES=vendor/package1:/full/path/package1|vendor/package2:/full/path/package2`
 
 Windows users warning
 ---------------------

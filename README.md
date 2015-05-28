@@ -47,10 +47,11 @@ You must define concerned local paths or packages as *extra* config entries:
 The same confiruation with `.env` will look like this, also with the neat [nested variables](https://github.com/vlucas/phpdotenv#nesting-variables) feature
 
 ```
-BASE_DIR=/path/to/DOCUMENT_ROOT
-COMPOSER_LOCAL_DIRS={$BASE_DIR}/projects
+LOCAL_DIR=/my/absolute/local
+VENDOR_DIR=/my/absolute/path/to/vendor
+COMPOSER_LOCAL_DIRS={$LOCAL_DIR}/path1,{$LOCAL_DIR}/path2
 COMPOSER_LOCAL_VENDORS=vendor1,vendor2
-COMPOSER_LOCAL_PACKAGES=vendor/package1:/my/absolute/path/to/vendor/package1,vendor/package2:/my/absolute/path/to/vendor/package2
+COMPOSER_LOCAL_PACKAGES=vendor/package1:{$VENDOR_DIR}/package1,vendor/package2:{$VENDOR_DIR}//package2
 ```
 
 Windows users warning

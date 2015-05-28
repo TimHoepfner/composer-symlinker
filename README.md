@@ -51,7 +51,7 @@ LOCAL_DIR=/my/absolute/local
 VENDOR_DIR=/my/absolute/path/to/vendor
 COMPOSER_LOCAL_DIRS={$LOCAL_DIR}/path1,{$LOCAL_DIR}/path2
 COMPOSER_LOCAL_VENDORS=vendor1,vendor2
-COMPOSER_LOCAL_PACKAGES=vendor/package1:{$VENDOR_DIR}/package1,vendor/package2:{$VENDOR_DIR}//package2
+COMPOSER_LOCAL_PACKAGES=vendor/package1:{$VENDOR_DIR}/package1,vendor/package2:{$VENDOR_DIR}/package2
 ```
 
 Windows users warning

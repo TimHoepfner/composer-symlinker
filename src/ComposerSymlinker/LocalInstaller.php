@@ -174,6 +174,12 @@ class LocalInstaller extends LibraryInstaller
      */
     public function isLocalSymlink($path)
     {
+		if ($path instanceof PackageInterface) {
+            $path = $this->getInstallPath($path);
+        }
+        if (!is_link($path)) {
+            return false;
+        }
         $link = readlink($path);
         if ($link === $path) {
             return false;

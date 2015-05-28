@@ -19,6 +19,7 @@ use Composer\Util\Filesystem;
 class LocalInstaller extends LibraryInstaller
 {
 
+
     protected $localDirs        = array();
     protected $localVendors     = array();
     protected $localPackages    = array();
@@ -29,17 +30,30 @@ class LocalInstaller extends LibraryInstaller
     public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null)
     {
         parent::__construct($io, $composer, $type, $filesystem);
-        $extra = $composer->getPackage()->getExtra();
-        $this->setLocalDirs(
-            isset($extra['local-dirs']) ? $extra['local-dirs'] : dirname(getcwd())
-        );
-        if (isset($extra['local-vendors'])) {
-            $this->setLocalVendors($extra['local-vendors']);
-        }
-        if (isset($extra['local-packages'])) {
-            $this->setLocalPackages($extra['local-packages']);
-        }
+		$cwd = dirname(getcwd());
+		$env = new Env($cwd);
+		$this->config = new Config($cwd, $composer, $env);
+		$this->setUp();
     }
+
+	/**
+	 * Set up all initial values
+	 */
+	public function setUp()
+	{
+		if (!$this->config->hasAnyConfig()) {
+			return;
+		}
+		$this->setLocalDirs($this->config->getLocalDirs());
+
+		if ($this->config->hasLocalVendors()) {
+			$this->setLocalVendors($this->config->getLocalVendors());
+		}
+
+		if ($this->config->hasLocalPackages()) {
+			$this->setLocalPackages($this->config->getLocalPackages());
+		}
+	}
 
     /**
      * Define a list of local paths to scan (extra 'local-dirs')
@@ -251,5 +265,14 @@ class LocalInstaller extends LibraryInstaller
             $this->vendorDir . DIRECTORY_SEPARATOR . $this->getPackageVendorName($package)
         );
     }
+
+	/**
+	 * @param string $configType Possible values 'composer' or 'env'
+	 * @return array
+	 */
+	public function getKeys($configType = null)
+	{
+		return $this->keys;
+	}
 
 }

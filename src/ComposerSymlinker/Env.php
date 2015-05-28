@@ -55,6 +55,7 @@ class Env
 		$parts = $this->getKey($key, $default);
 		$keyValue = [];
 		foreach ($parts as $k => &$part) {
+			if (empty($part)) continue;
 			$part = explode(':', $part);
 			$keyValue[$part[0]] = $part[1];
 		}

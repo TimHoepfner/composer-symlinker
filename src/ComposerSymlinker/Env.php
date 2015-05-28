@@ -7,9 +7,14 @@ use \Dotenv;
 
 class Env
 {
-	public function __construct($path, $file = '.env')
+	public function __construct($path = null, $file = '.env')
 	{
-		Dotenv::load($path, $file);
+		if (is_null($path)) {
+			$path = getcwd();
+		}
+		try {
+			Dotenv::load($path, $file);
+		} catch (\Exception $e) {}
 	}
 
 	public function get($key, $default = null)
@@ -35,7 +40,9 @@ class Env
 	 */
 	public function getKey($key, $default = null)
 	{
-		return $this->splitStr($this->get($key, $default));
+		return $this->splitStr(
+			$this->get($key, $default)
+		);
 	}
 
 	/**

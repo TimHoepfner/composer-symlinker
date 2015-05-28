@@ -82,7 +82,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 	{
 		$composer = $this->createComposerMockWithReturnValue();
 		$env = $this->createEnv();
-		$config = new Config(getcwd(), $composer, $env);
+		$config = new Config($composer, $env);
 		$this->assertTrue($config->hasComposerConfig());
 	}
 
@@ -90,7 +90,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 	{
 		$composer = $this->createComposerMockEmptyValue();
 		$env = $this->createEnv();
-		$config = new Config(getcwd(), $composer, $env);
+		$config = new Config($composer, $env);
 		$this->assertFalse($config->hasComposerConfig());
 	}
 
@@ -98,7 +98,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 	{
 		$composer = $this->createComposerMockEmptyValue();
 		$env = $this->createEnv();
-		$config = new Config(getcwd(), $composer, $env);
+		$config = new Config($composer, $env);
 		$this->assertTrue($config->hasEnvConfig());
 	}
 
@@ -106,7 +106,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 	{
 		$composer = $this->createComposerMockEmptyValue();
 		$env = $this->createEnvMock();
-		$config = new Config(getcwd(), $composer, $env);
+		$config = new Config($composer, $env);
 		$this->assertFalse($config->hasEnvConfig());
 	}
 
@@ -114,7 +114,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 	{
 		$composer = $this->createComposerMockWithReturnValue();
 		$env = $this->createEnvMock();
-		$config = new Config(getcwd(), $composer, $env);
+		$config = new Config($composer, $env);
 		$this->assertTrue($config->hasAnyConfig());
 	}
 
@@ -122,7 +122,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 	{
 		$composer = $this->createComposerMock([]);
 		$env = $this->createEnv();
-		$config = new Config(getcwd(), $composer, $env);
+		$config = new Config($composer, $env);
 		$this->assertTrue($config->hasAnyConfig());
 	}
 
@@ -140,7 +140,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 				$expectedMessage = "Using composer mock and concrete env";
 				$localDir = [$localDir];
 			}
-			$config = new Config(getcwd(), $composer, $env);
+			$config = new Config($composer, $env);
 			$this->assertEquals($localDir, $config->getLocalDirs(), $expectedMessage);
 			$this->assertEquals([
 				'vendor/package1' => '/my/absolute/path/to/vendor/package1',

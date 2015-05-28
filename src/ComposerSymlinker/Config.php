@@ -22,11 +22,8 @@ class Config
 
 	protected $env;
 
-	protected $currentWorkingDirectory;
-
-	public function __construct($currentWorkingDirectory, Composer $composer, Env $env)
+	public function __construct(Composer $composer, Env $env)
 	{
-		$this->cwd = $currentWorkingDirectory;
 		$this->composer = $composer;
 		$this->env = $env;
 		$this->extra = $this->composer->getPackage()->getExtra();
@@ -68,7 +65,7 @@ class Config
 	public function getLocalDirs()
 	{
 		return isset($this->extra[Config::KEY_DIRS])
-			? $this->extra[Config::KEY_DIRS] : $this->env->getKey(Config::ENV_KEY_DIRS, $this->cwd);
+			? $this->extra[Config::KEY_DIRS] : $this->env->getKey(Config::ENV_KEY_DIRS, dirname(getcwd()));
 	}
 
 	public function hasLocalVendors()

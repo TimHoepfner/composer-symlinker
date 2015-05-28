@@ -30,9 +30,8 @@ class LocalInstaller extends LibraryInstaller
     public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null)
     {
         parent::__construct($io, $composer, $type, $filesystem);
-		$cwd = dirname(getcwd());
-		$env = new Env($cwd);
-		$this->config = new Config($cwd, $composer, $env);
+		$env = new Env();
+		$this->config = new Config($composer, $env);
 		$this->setUp();
     }
 

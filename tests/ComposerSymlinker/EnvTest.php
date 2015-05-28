@@ -21,8 +21,8 @@ class EnvTest extends \PHPUnit_Framework_TestCase
 
 	public function testDotenvNestingVariablesWorking()
 	{
-		$localDirs = $this->env->get(Config::ENV_KEY_DIRS);
-		$this->assertEquals('/path/to/DOCUMENT_ROOT/projects', $localDirs);
+		$localDirs = $this->env->getKey(Config::ENV_KEY_DIRS);
+		$this->assertEquals('/my/absolute/local/path1', $localDirs[0]);
 	}
 
 	public function testRegularEnvVar()

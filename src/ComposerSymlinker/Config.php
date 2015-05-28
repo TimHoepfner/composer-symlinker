@@ -58,7 +58,7 @@ class Config
 	 */
 	public function hasEnvConfig()
 	{
-		return $this->env->get(static::ENV_KEY_DISABLED) !== true
+		return $this->env->get(static::ENV_KEY_DISABLED) != true
 			&& $this->env->get(static::ENV_KEY_DIRS) !== false;
 	}
 

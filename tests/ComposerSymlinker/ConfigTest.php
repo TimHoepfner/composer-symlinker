@@ -13,6 +13,21 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 	 */
 	private $fixturesPath;
 
+	private $composerData = [
+		'local-dirs' => [
+			'/my/absolute/local/path1',
+			'/my/absolute/local/path2',
+		],
+		'local-packages' => [
+			'vendor/package1' => '/my/absolute/path/to/vendor/package1',
+			'vendor/package2' => '/my/absolute/path/to/vendor/package2',
+		],
+		'local-vendors' => [
+			'vendor1',
+			'vendor2',
+		]
+	];
+
 	public function setUp()
 	{
 		$this->fixturesPath = __DIR__ . '/fixtures';
@@ -34,18 +49,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
 	private function createComposerMockWithReturnValue()
 	{
-		$composer = $this->createComposerMock([
-			'local-dirs' => '/path/to/DOCUMENT_ROOT/projects',
-			'local-packages' => [
-				'vendor/package1' => '/my/absolute/path/to/vendor/package1',
-				'vendor/package2' => '/my/absolute/path/to/vendor/package2',
-			],
-			'local-vendors' => [
-				'vendor1',
-				'vendor2',
-			]
-		]);
-
+		$composer = $this->createComposerMock($this->composerData);
 		return $composer;
 	}
 
@@ -120,28 +124,35 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
 	public function testHasAnyConfigEnv()
 	{
-		$composer = $this->createComposerMock([]);
+		$composer = $this->createComposerMockEmptyValue();
 		$env = $this->createEnv();
 		$config = new Config($composer, $env);
 		$this->assertTrue($config->hasAnyConfig());
 	}
 
+	public function testHasAnyConfigButEnvIsDisabled()
+	{
+		$composer = $this->createComposerMockWithReturnValue();
+		$env = new Env($this->fixturesPath, '.env-disabled');
+		$config = new Config($composer, $env);
+		$this->assertTrue($config->hasAnyConfig());
+		$this->assertFalse($config->hasEnvConfig());
+	}
+
 	public function testGetLocalDirsVendorsAndPackages()
 	{
-		$localDir = '/path/to/DOCUMENT_ROOT/projects';
 		for ($i = 0; $i < 2; $i++) {
 			if ($i < 1) {
 				$composer = $this->createComposerMockWithReturnValue();
 				$env = $this->createEnvMock();
 				$expectedMessage = "Using concrete composer and env mock";
 			} else {
-				$composer = $this->createComposerMock([]);
+				$composer = $this->createComposerMockEmptyValue();
 				$env = $this->createEnv();
 				$expectedMessage = "Using composer mock and concrete env";
-				$localDir = [$localDir];
 			}
 			$config = new Config($composer, $env);
-			$this->assertEquals($localDir, $config->getLocalDirs(), $expectedMessage);
+			$this->assertEquals($this->composerData['local-dirs'], $config->getLocalDirs(), $expectedMessage);
 			$this->assertEquals([
 				'vendor/package1' => '/my/absolute/path/to/vendor/package1',
 				'vendor/package2' => '/my/absolute/path/to/vendor/package2'
@@ -149,4 +160,5 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 			$this->assertEquals(['vendor1', 'vendor2'], $config->getLocalVendors(), $expectedMessage);
 		}
 	}
+
 }

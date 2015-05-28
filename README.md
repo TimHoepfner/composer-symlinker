@@ -18,7 +18,7 @@ To use it, just add it as a dependency in your `composer.json`:
 "timhoepfner/composer-symlinker": "dev-master"
 ```
 
-You must define concerned local paths or packages as *extra* config entries **or you can use your projects .env, see [here](#Dotenv) **:
+You must define concerned local paths or packages as *extra* config entries **or you can use your projects .env, see [here](#dotenv) **:
 
 -   `local-dirs`: a list of local paths to scan while searching a local version
     of a package ; the final package path will be completed with `vendor/package` ;

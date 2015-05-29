@@ -271,13 +271,4 @@ class LocalInstaller extends LibraryInstaller
         );
     }
 
-	/**
-	 * @param string $configType Possible values 'composer' or 'env'
-	 * @return array
-	 */
-	public function getKeys($configType = null)
-	{
-		return $this->keys;
-	}
-
 }
